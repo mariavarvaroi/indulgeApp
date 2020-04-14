@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #5995da;
+    flex-wrap: wrap;
+    border: 2px solid red;
+    flex-direction: column;
+}
+.top {
+    border: 1px solid #000000;
+}
+.center {
+    display: flex;
+    border: 1px solid #fff;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border: 1px solid #000000;
+    position: relative;
+
+}
+.bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; 
+}
+
+.header {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background-color: #b2d6ff;
+}
+
+.photo {
+    border: 1px solid #000000;
+    position: relative;
+    left: 0px;
+}
+.calories {
+    position: absolute;
+    right: 15px;
+}
+
+.list {
+    
+}
+
