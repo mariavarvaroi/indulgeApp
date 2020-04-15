@@ -1,30 +1,77 @@
 export const food = [
     {
+        "id": 0,
+        "name": "Cioco",
+        "calories": 100,
+        "quantity": '80 g',
+        "type": ["Snack", "Breakfast"],
+        "properties": {
+            digest: true,
+            veggie: true,
+            protein: false,
+            carbs: true,
+            fiber: true,
+            indulge: true,
+        }
+    },
+    {
         "id": 1,
         "name": "Banana",
         "calories": 100,
-        "quantity": 80,
-        "tags": ['snack', 'fruit']
+        "quantity": '80 g',
+        "type": ["Snack", "Breakfast"],
+        "properties": {
+            digest: true,
+            veggie: true,
+            protein: false,
+            carbs: true,
+            fiber: true,
+            indulge: true,
+        }
     },
     {
         "id": 2,
-        "name": "apple",
+        "name": "Apple",
         "calories": 89,
-        "quantity": 50,
-        "tags": []
+        "quantity": '100 g',
+        "type": ["Snack", "Breakfast"],
+        "properties": {
+            digest: true,
+            veggie: true,
+            protein: true,
+            carbs: true,
+            fiber: true,
+            indulge: true,
+        }
     },
     {
         "id": 3,
-        "name": "banananist",
-        "calories": 50,
-        "quantity": 120,
-        "tags": []
+        "name": "Milk 3%",
+        "calories": 60,
+        "quantity": '400 ml',
+        "type": ["Breakfast"],
+        "properties": {
+            digest: true,
+            veggie: true,
+            protein: true,
+            carbs: true,
+            fiber: true,
+            indulge: false,
+        }
     },
     {
         "id": 4,
-        "name": "milkshake",
+        "name": "Milkshake",
         "calories": 250,
-        "quantity": 100,
-        "tags": []
+        "quantity": '250 ml',
+        "type": ["Snack", "Breakfast"],
+        "properties": {
+            digest: true,
+            veggie: true,
+            protein: true,
+            carbs: true,
+            fiber: true,
+            indulge: true,
+        }
     }
 ]
