@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Indulge from './Indulge';
+import Indulge from './Indulge1';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(

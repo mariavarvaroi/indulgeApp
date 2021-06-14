@@ -1,62 +1,151 @@
-.container {
+* {
+    -webkit-font-feature-settings: "liga" on, "calt" on;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-family: 'JetBrains Mono';
+    box-sizing: border-box
+  }
+
+  :root {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @font-face{
+    font-family: 'JetBrains Mono';
+    src: url("./JetBrainsMono-1.0.3/ttf/JetBrainsMono-Regular.ttf") format('embedded-opentype'),
+         url("./JetBrainsMono-1.0.3/web/woff2/JetBrainsMono-Regular.woff2") format('woff2'),
+         url("./JetBrainsMono-1.0.3/web/woff/JetBrainsMono-Regular.woff") format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+h3 {
+    font-size: 2rem; 
+    margin-bottom: 0.4375rem;
+    color: #dc0041;
+}
+
+.app{
+    font-size: 2.5rem; 
+    padding: 40px 40px ;
+    color: #dc0041;
+}
+.form {
     display: flex;
-    width: 100%;
+    justify-content: center;
+    position: relative;
     flex-direction: column;
-    flex-wrap: wrap;
+    margin: 1rem;
+    font-size: 1.2rem;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .12);
+}
+
+.formInput{
+    display: flex;
     justify-content: flex-end;
-    background-color: #98c3f5;
-    border: 1px solid red;
+    position: relative;
+    width: 60%;
+    max-width: 60%;
+}
+.input{
+    width: 30%;
+    max-width: 30%;
+    position: relative;
+    border  : none;
+  padding : 0 10px;
+  margin  : 0;
+  width   : 80%;
+  background : none;
+}
+.label{
+    position: relative;
+    right: 60px;
+}
+.submit{
+    font-size: 1.25rem;
+    border: 1px solid #dc0054; 
+    border-radius: 5px;
+    margin: 10px;
+    width: 20%;
+    max-width: 20%;
+    align-self: center;
+    padding: 5px;
+    cursor: pointer;
+    
 }
 
-.header {
+.submit:hover {
+    border: solid .1rem #dc0041;
+    
+  }
+
+.meal{
     display: flex;
-    background-image: linear-gradient(120deg, #efd5ff 10%, #515ada 90%);
-    width: 100%;
-    border: 1px solid #000000;
-    color: #fff;
-    font-weight: bold;
-    font-size: 26px;
-    align-self: flex-end;
-    padding: 20px;
-}
-.body{
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    padding: 20px;
-    background-image: linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%);
+    flex-direction: column;
+    justify-content: center;
+    margin: 1rem;
+    font-size: 1.2rem;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .12);
+    transition: box-shadow 0.15s ease-in-out;
+    transition-property: box-shadow;
 }
 
-.photo {
-    width: 50px;
-}
-.cals{
-    position: absolute;
-    left: 10px;
-    height: 50px;
-    align-self: flex-start;
-    font-size: 16px;
-    font-weight: bolder;
-}
-.bottom{
+.meal:hover {
+    box-shadow: 2px 8px 45px rgba(0, 0, 0, .15);
+    transform: translate3D(0, -2px, 0);
+  }
+/* tot ce tine de continutul unui card */
+.card{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 20px;
-    background-image: linear-gradient(120deg, #efd5ff 10%, #515ada 90%);
-}
-.list {
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .12);
+    transition: box-shadow 0.15s ease-in-out;
+    transition-property: box-shadow;
+}  
+
+.cardContent{
     display: flex;
-    justify-content: space-around;
+    position: relative;
+    justify-content: space-between;
+    padding: 10px 10px;
+    /* border: solid 1px; */
     width: 100%;
 }
-.list>li{
-    
-    padding: 5px;
-    display: inline;
-    list-style: none;
-    color: #ffffff;
+.calories{
+    width: 50%;
+    max-width: 50%;
+    border  : solid 0.1px #dc0041;
+    border-radius: 3px;
+    padding : 0 10px;
+    margin  : 0;
+    width   : 80%;
+    background : none;
 }
-.list li img{
-    height: 20px;
+.labelAndInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
+
+.refresh{
+    width: 10%;
+    position: relative;
+    right: 10px;
+    top: 10px;
+    background-image: url(./svg/refresh_black.svg);
+    background-repeat: no-repeat;
+    background-size: 18px;
+    border: none;
+}  

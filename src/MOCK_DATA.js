@@ -172,10 +172,10 @@ export const food = [
     {
         "id": "94D39",
         "name": "Veal - Sweetbread",
-        "calories": 316,
+        "calories": 100,
         "quantity": 209,
         "type": [
-            "Snack",
+            "Snack2",
             "Dinner"
         ],
         "properties": {
