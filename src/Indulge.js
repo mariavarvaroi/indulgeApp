@@ -1,258 +1,287 @@
 import React from 'react';
-import styles from './Styles.module.css';
-import Food from './svg/watermelon.svg'
-import Cake from './svg/cake.svg'
-import Protein from './svg/fries.svg'
-import Carbs from './svg/meat.svg'
-import Digest from './svg/ok.svg'
-import { food } from './MOCK_DATA'
+import './styles.scss'
 
-const list = food;
+import { food } from './foodDB'
+import { ponderi } from './components/constants'
+
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
-const ponderi = {
-    '1': {
-        breakfast: 0,
-        lunch: 100,
-        dinner: 0,
-        snack: 0,
-        snack2: 0,
-    },
-    '2': {
-        breakfast: 0,
-        lunch: 60,
-        dinner: 40,
-        snack: 0,
-        snack2: 0,
-    },
-    '3': {
-        breakfast: 30,
-        lunch: 40,
-        dinner: 30,
-        snack: 0,
-        snack2: 0,
-    },
-    '4': {
-        breakfast: 25,
-        lunch: 40,
-        dinner: 25,
-        snack: 10,
-        snack2: 0,
-    },
-    '5': {
-        breakfast: 25,
-        lunch: 30,
-        dinner: 25,
-        snack: 10,
-        snack2: 10,
-    },
+
+const generateMenu = function (maxCal, nrMeals, food) {
+
+    const p = ponderi[nrMeals]
+    const mealStructure = Object.entries(p)
+    const meals = []
+
+    const generateCard = (mealType, cardcalories) => {
+        let card;
+        const max = Math.max.apply(Math, food.map(function (food) { return food.calories; }))
+        const min = Math.min.apply(Math, food.map(function (food) { return food.calories; }))
+        if (cardcalories > max) {
+            cardcalories = max
+        }
+        if (cardcalories < min) {
+            cardcalories = min
+        }
+        if (mealType === 'Snack2') {
+            mealType = 'Snack'
+        }
+        console.log('cardcalories', cardcalories)
+        let cards = food.filter((food) => {
+            return food.calories < (cardcalories + 50)
+                && food.calories > (cardcalories - 50)
+                && food.type.includes(mealType)
+        })
+        if (!cards.length) {
+            cards = food.filter((food) => {
+                return food.calories < (cardcalories - 50)
+                    && food.type.includes(mealType)
+            })
+            let nextbestCard = cards.reduce((max, card) => max.calories > card.calories ? max : card)
+            console.log('next best card', nextbestCard)
+            return nextbestCard
+        } else {
+            card = cards[getRandomInt(cards.length)]
+            return card
+        }
+    }
+
+    for (let [type, percent] of mealStructure) {
+        if (percent) {
+            let cals = maxCal * percent / 100
+            console.log('calorii pe masa', cals)
+            let sum = 0
+
+            while (sum < cals) {
+                let interim = cals - sum
+                const card = generateCard(type, interim)
+                sum += card.calories
+                card.type = type
+                meals.push(card)
+            }
+            console.log('meals and sum', meals, sum)
+
+        }
+
+    }
+    return meals;
 }
+
+const menuReducer = (state, action) => {
+    switch (action.type) {
+        case ('FOOD_INIT'):
+            return
+        case ('SET_MENU'):
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                data: action.payload,
+            }
+        case ('FETCH_ERROR'):
+            return
+        default:
+            throw new Error();
+    }
+}
+
 
 
 const Indulge = () => {
 
-    const [maxCal, setMaxCal] = React.useState()
-    const [nrMeals, setNrMeals] = React.useState(1)
-
-    const [breakfast, setBreakFast] = React.useState([])
-    const [lunch, setLunch] = React.useState([])
-    const [dinner, setDinner] = React.useState([])
-    const [snack, setSnack] = React.useState([])
-    const [snack2, setSnack2] = React.useState([])
-    const [calTotal, setCalTotal] = React.useState(0)
-    const [cucu, setCucu] = React.useState('a')
-    const [dayMenu, setDayMenu] = React.useState({})
+    const [menu, dispatchMenu] = React.useReducer(
+        menuReducer,
+        { data: [], isLoading: false, isError: false }
+    )
 
 
-    const [randomIndex, setRandomIndex] = React.useState({ breakfast: 0, lunch: 0, dinner: 0, snack: 0, snack2: 0 })
+    const [settings, setSettings] = React.useState({
+        maxCal: 0,
+        nrMeals: 1,
+        mealStructure: Object.entries(ponderi[1])
+    })
 
 
-    React.useEffect(() => {
-        const menu = []
-        const arraymenu = {}
 
+    const handleCals = (e) =>
+        setSettings({ ...settings, maxCal: Number(e.target.value) })
 
-        breakfast[randomIndex.breakfast] && (arraymenu['breakfast'] = breakfast[randomIndex.breakfast])
-        lunch[randomIndex.lunch] && (arraymenu['lunch'] = lunch[randomIndex.lunch])
-        dinner[randomIndex.dinner] && (arraymenu['dinner'] = dinner[randomIndex.dinner])
-        snack[randomIndex.snack] && (arraymenu['snack'] = snack[randomIndex.snack])
-        snack2[randomIndex.snack2] && (arraymenu['snack2'] = snack2[randomIndex.snack2])
-
-        let sum = menu.reduce((acc, cur) => acc + cur.calories, 0)
-
-        console.log('arrmenu1', arraymenu)
-        setCalTotal(sum)
-        setDayMenu(arraymenu)
-    }, [randomIndex])
-
-    React.useEffect(() => {
-        const array = [];
-        dayMenu.breakfast && array.push(dayMenu.breakfast.calories);
-        dayMenu.lunch && array.push(dayMenu.lunch.calories);
-        dayMenu.dinner && array.push(dayMenu.dinner.calories);
-        dayMenu.snack && array.push(dayMenu.snack.calories);
-        let sum = array.reduce((acc, cur) => acc + cur, 0)
-        setCalTotal(sum);
-    }, [dayMenu])
-
-    console.log('daymenu', dayMenu)
-
-    const handleRefresh = (foodlist, tip) => {
-        const newIndex = getRandomInt(foodlist.length);
-        console.log('trage')
-        if (foodlist.length > 1) {
-            (newIndex !== randomIndex) ? setRandomIndex({ ...randomIndex, [tip]: newIndex }) : handleRefresh(foodlist, tip)
-        } else if (foodlist.length === 1) {
-            setRandomIndex(newIndex)
-        } else {
-            console.log('pe aici')
-            return
-        }
-
+    const handleMeals = (e) => {
+        let pondere = Object.entries(ponderi[e.target.value])
+        setSettings({
+            ...settings,
+            nrMeals: Number(e.target.value),
+            mealStructure: pondere
+        })
     }
-    const handleChange = event => setCucu(event.target.value);
-
-    const constructMealsList = (maxCal, nrMeals) => {
-        const fillMeals = () => {
-
-            const p = ponderi[nrMeals]
-            // console.log('meals', p)
-
-            const brkfst = list.filter(food => {
-                return food.calories < (maxCal * (p.breakfast + 1) / 100)
-                    && food.type.includes('Breakfast')
-            })
-            setBreakFast(brkfst)
-
-
-            const lnch = list.filter(food => {
-                return food.calories < (maxCal * (p.lunch + 1) / 100)
-                    && food.type.includes('Lunch')
-            })
-            setLunch(lnch)
-            const dnnr = list.filter(food => {
-                return food.calories < (maxCal * (p.dinner + 1) / 100)
-                    && food.type.includes('Dinner')
-            })
-            setDinner(dnnr)
-
-            const snck = list.filter(food => {
-                return food.calories < (maxCal * (p.snack + 1) / 100)
-                    && food.type.includes('Snack')
-            })
-            setSnack(snck)
-            const snck2 = list.filter(food => {
-                return food.calories < (maxCal * (p.snack2 + 1) / 100)
-                    && food.type.includes('Snack')
-            })
-            setSnack2(snck2)
-        }
-        fillMeals();
-        handleRefresh(breakfast, 'breakfast')
-        console.log('randomindex', randomIndex)
-    }
-
-
 
     const handleSubmit = (e) => {
-        constructMealsList(maxCal, nrMeals)
         e.preventDefault();
+        if (food.length) {
+            const newMenu = generateMenu(settings.maxCal, settings.nrMeals, food)
+            dispatchMenu({
+                type: 'SET_MENU',
+                payload: newMenu,
+            })
+        }
     }
 
+    const handleChangeCalories = (e, id) => {
+        let [foodwithID] = menu.filter(food => food.id === id);
+        let index = menu.indexOf(foodwithID)
+        foodwithID.calories = Number(e.target.value)
+        let auxmenu = menu
+        auxmenu.splice(index, 1, foodwithID)
+        dispatchMenu({
+            type: 'SET_MENU',
+            payload: auxmenu,
+        })
+    }
+
+    const handleRefresh = (id, type, calories) => {
+        let [foodwithID] = menu.data.filter(food => food.id === id);
+        let index = menu.data.indexOf(foodwithID)
+        let tip = type
+
+        let newMeals = food.filter(food => {
+            if (type === "Snack2") {
+                tip = "Snack"
+            }
+            if (
+                (food.type.includes(tip))
+                && ((food.calories + 10) > calories) && ((food.calories - 10) < calories)
+            ) {
+                return true
+            } else {
+                return false
+            }
+
+        })
+        if (newMeals.length) {
+            const newMealIndex = getRandomInt(newMeals.length)
+            const newMeal = { ...newMeals[newMealIndex], 'type': type }
+            console.log('new meals', newMeals)
+            let auxmenu = menu.data
+            auxmenu.splice(index, 1, newMeal)
+            console.log('index to be refreshed', index)
+            dispatchMenu({
+                type: 'SET_MENU',
+                payload: auxmenu,
+            })
+        } else {
+            const newMeal = foodwithID
+            console.log('new meals', newMeals)
+            let auxmenu = menu.data
+            auxmenu.splice(index, 1, newMeal)
+            console.log('index to be refreshed', index)
+            dispatchMenu({
+                type: 'SET_MENU',
+                payload: auxmenu,
+            })
+        }
+    }
+
+    function totalCal(list) {
+        let sum = 0
+        list.map((item) =>
+            sum += item.calories
+        )
+        return sum
+    }
+    let total = totalCal(menu.data)
+
+    let types = [...new Set(menu.data.map(item => item.type))]
+
 
     return (
-        <div>
-            <span>Indulge App 2021</span>
-            <hr />
-            <form onSubmit={handleSubmit}>
+        <div className='wrapper'>
+            <h1 className='title'>
+                Indulge App 2021</h1>
+            <h2>This is an app that will calculate your meals acording to your max cal objectives and number of meals</h2>
+            {}
+            <Form handleCals={handleCals}
+                handleMeals={handleMeals}
+                handleSubmit={handleSubmit}
+                isMaxCal={settings.maxCal} />
 
-                <label htmlFor={"maxcal"}>MaxCal</label>
-
-                <input
-                    id={"maxcal"}
-                    type="number"
-                    onChange={(e) => setMaxCal(e.target.value)}
-                />
-                <label htmlFor={"nrmeals"}>number of meals</label>
-                <select onChange={(e) => setNrMeals(e.target.value)}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-
-                <button type="submit" disabled={!maxCal}>Submit</button>
-            </form>
-            <hr />
-            {<p>total cal: {calTotal}</p>}
-
-            {!breakfast.length
-                ? (<p></p>)
-                : (<Card foodType={"Breakfast"} cucuType={cucu} handleChange={handleChange} tip={'breakfast'} item={breakfast[randomIndex.breakfast]} handleRefresh={handleRefresh} foodlist={breakfast} />)}
-            {!lunch.length
-                ? (<p><strong>Maybe</strong></p>)
-                : (<Card foodType={"Lunch"} cucuType={cucu} handleChange={handleChange} tip={'lunch'} item={lunch[randomIndex.lunch]} foodlist={lunch} handleRefresh={handleRefresh} />)}
-            {!snack2.length
-                ? (<div></div>)
-                : (<Card foodType={"Snack"} cucuType={cucu} handleChange={handleChange} tip={'snack2'} item={snack2[randomIndex.snack2]} foodlist={snack2} handleRefresh={handleRefresh} />)}
-            {!dinner.length
-                ? (<p>  <strong>u would like</strong></p>)
-                : (<Card foodType={"Dinner"} cucuType={cucu} handleChange={handleChange} tip={'dinner'} item={dinner[randomIndex.dinner]} foodlist={dinner} handleRefresh={handleRefresh} />)}
-            {!snack.length
-                ? (<p>  <strong>a snack!</strong></p>)
-                : (<Card foodType={"Snack"} cucuType={cucu} handleChange={handleChange} tip={'snack'} item={snack[randomIndex.snack]} foodlist={snack} handleRefresh={handleRefresh} />)}
-
-
-
+            {menu.data.length > 0 ? (types.map(type => {
+                return (
+                    <Meal totalCal={totalCal}
+                        key={type}
+                        meal={menu.data}
+                        type={type}
+                        handleChangeCalories={handleChangeCalories}
+                        handleRefresh={handleRefresh} />
+                )
+            }))
+                : null
+            }
+            <div>
+                <h4>Total Calorii: {total}<strong></strong></h4>
+            </div>
         </div>
     )
 }
 
 
-const Card = ({ item, foodType, handleRefresh, foodlist, tip, handleChange }) => {
+const Meal = ({ meal, handleRefresh, handleChangeCalories, type, totalCal }) => {
+    let mealOfType = meal.filter(item => item.type === type)
+    let mealTotal = totalCal(mealOfType)
     return (
-        <div className={styles.container}>
-            <div className={styles.top}>
-                <div className={styles.header}> {foodType} </div>
-                <button type="button" onClick={() => handleRefresh(foodlist, tip)}>Refresh</button>
-            </div>
+        <div className='meal'>
+            <h3>{type}</h3>
+            {mealOfType.map(meal =>
+                <Card key={meal.id}
+                    item={meal}
+                    handleChangeCalories={handleChangeCalories}
+                    handleRefresh={handleRefresh} />
+            )}
+            <h4>Cal per meal {mealTotal}</h4>
+        </div>
+    )
 
-            <div className={styles.body}>
-                <div className={styles.cals}>
-                    <label htmlFor="cals">Calories: </label>
-                    <input id="cals"
-                        value={item.calories}
-                        type="text"
-                        onChange={handleChange} />
+}
 
-                </div>
-                <div className={styles.photo}>
-                    <img src={Food} alt='food' />
-                </div>
-            </div>
 
-            <div className={styles.bottom}>
-                <div className={styles.name}>
-                    <h3>Name: {item.name}</h3>
-                    <h3>Quantity: {item.quantity}</h3>
-                </div>
-                <div>
-                    <ul className={styles.list}>
-                        {item.properties.digest && <li><img src={Digest} alt="easy digestion" /> </li>}
-                        {item.properties.veggie && <li><img src={Food} alt='food' /></li>}
-                        {item.properties.protein && <li><img src={Protein} alt='protein' /></li>}
-                        {item.properties.carbs && <li><img src={Carbs} alt='carbs' /></li>}
-                        {item.properties.indulge && <li><img src={Cake} alt='cake' /></li>}
-
-                    </ul>
-                </div>
-            </div>
-
+const Card = ({ item, handleChangeCalories, handleRefresh }) => {
+    return (
+        <div key={item.id}>
+            <h4>Name: {item.name}</h4>
+            <label htmlFor='calories'>Calories: </label>
+            <input id='calories' value={item.calories}
+                onChange={(e) => handleChangeCalories(e, item.id)}></input>
+            <button type="button" className='refreshButton'
+                onClick={() => handleRefresh(item.id, item.type, item.calories)}>
+                Refresh</button>
         </div>
     )
 }
 
+
+
+const Form = ({ handleCals, handleMeals, handleSubmit, isMaxCal }) => {
+    return (
+        <form onSubmit={handleSubmit} className='form'>
+            <label htmlFor={"maxcal"}>Max number of calories/day</label>
+            <input
+                id={"maxcal"}
+                type="number"
+                onChange={handleCals}
+                className='input'
+            />
+            <label htmlFor={"nrmeals"}>Number of meals</label>
+            <select onChange={handleMeals} className='input'>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="submit" className='submit' disabled={!isMaxCal}>
+                Submit</button>
+        </form>
+    )
+}
 
 export default Indulge;

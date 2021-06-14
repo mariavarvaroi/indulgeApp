@@ -1,3 +1,6 @@
+$title: #dc0041;
+$link: #6675dd;
+
 * {
   -webkit-font-feature-settings: "liga" on, "calt" on;
   -webkit-font-smoothing: antialiased;
@@ -25,51 +28,56 @@
 }
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns:
+    1fr
+    min(65%, 100%)
+    1fr;
+}
+.wrapper > * {
+  grid-column: 2;
 }
 
 h3 {
   font-size: 1.5rem;
   margin-bottom: 0.4375rem;
-  color: #dc0041;
+  color: $title;
   align-self: center;
+}
+h2 {
+  font-size: 1.3rem;
+  align-self: center;
+  max-width: 80%;
 }
 
 .title {
   font-size: 2.5rem;
-  color: #dc0041;
+  color: $title;
   align-self: center;
 }
 .form {
   display: flex;
   justify-content: center;
-  position: relative;
   flex-direction: column;
-  margin: 1rem;
   font-size: 1.2rem;
-  padding: 10px 10px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
 
 .formInput {
   display: flex;
   justify-content: flex-end;
-  position: relative;
+  //   position: relative;
   width: 60%;
   max-width: 60%;
 }
 .input {
   width: 30%;
   max-width: 30%;
-  position: relative;
-  border: none;
-  padding: 0 10px;
-  margin: 0;
-  width: 80%;
-  background: none;
+  border: solid 1px $title;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  //   padding: 10px 10px;
+  background: white;
 }
 .label {
   position: relative;
@@ -77,38 +85,38 @@ h3 {
 }
 .submit {
   font-size: 1.25rem;
-  border: 1px solid #dc0054;
-  border-radius: 5px;
-  margin: 10px;
   width: 20%;
   max-width: 20%;
+  margin: 10px;
+  border: 1px solid #dc0054;
+  border-radius: 5px;
+  background: white;
   align-self: center;
   padding: 5px;
   cursor: pointer;
-}
-
-.submit:hover {
-  border: solid 0.1rem #dc0041;
+  &:hover {
+    color: white;
+    background-color: $title;
+  }
 }
 
 .meal {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 1rem;
+  //   margin: 1rem;
   font-size: 1.2rem;
-  padding: 10px 10px;
   border: none;
   border-radius: 5px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
   transition: box-shadow 0.15s ease-in-out;
   transition-property: box-shadow;
+  &:hover {
+    box-shadow: 2px 8px 45px rgba(0, 0, 0, 0.15);
+    transform: translate3D(0, -2px, 0);
+  }
 }
 
-.meal:hover {
-  box-shadow: 2px 8px 45px rgba(0, 0, 0, 0.15);
-  transform: translate3D(0, -2px, 0);
-}
 /* tot ce tine de continutul unui card */
 .card {
   display: flex;
@@ -153,4 +161,34 @@ h3 {
   background-repeat: no-repeat;
   background-size: 18px;
   border: none;
+}
+.refreshButton {
+  border: solid 1px $title;
+  border-radius: 5px;
+  background-color: white;
+  margin-left: 5px;
+  &:hover {
+    background-color: $title;
+    color: white;
+    font-weight: 600;
+  }
+}
+.footer {
+  position: fixed;
+  width: 100%;
+  //   border: solid 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  background-color: lighten($title, 40%);
+  font-size: 12px;
+  margin-top: 20px;
+  a {
+    color: $link;
+    &:hover {
+      color: $title;
+    }
+  }
 }
