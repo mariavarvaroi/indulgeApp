@@ -14,7 +14,7 @@ It provided a way to improve and learn even more.
 
 ## How it works?
 
-- go to
+- go to [Indulge App](https://indulgeapp.netlify.app/)
 - type the number of calories
 - select the number of meals
 - Indulge will provide the meal plan!🤩
