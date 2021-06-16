@@ -1,5 +1,6 @@
 $title: #dc0041;
-$link: #6675dd;
+$link: #585481;
+$lilac: #c49bbb;
 
 * {
   -webkit-font-feature-settings: "liga" on, "calt" on;
@@ -31,8 +32,9 @@ $link: #6675dd;
   display: grid;
   grid-template-columns:
     1fr
-    min(65%, 100%)
+    calc(min(65ch, 100vw))
     1fr;
+  margin-bottom: 4rem;
 }
 .wrapper > * {
   grid-column: 2;
@@ -42,22 +44,29 @@ h3 {
   font-size: 1.5rem;
   margin-bottom: 0.4375rem;
   color: $title;
-  align-self: center;
+  justify-self: center;
 }
 h2 {
   font-size: 1.3rem;
-  align-self: center;
-  max-width: 80%;
+  font-weight: 100;
+  max-width: 90%;
+  justify-self: center;
 }
-
+.logo {
+  display: inline;
+  height: 50px;
+  width: 50px;
+}
 .title {
+  display: inline;
   font-size: 2.5rem;
   color: $title;
-  align-self: center;
+  justify-self: center;
 }
 .form {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   font-size: 1.2rem;
 }
@@ -65,14 +74,14 @@ h2 {
 .formInput {
   display: flex;
   justify-content: flex-end;
-  //   position: relative;
   width: 60%;
   max-width: 60%;
 }
 .input {
   width: 30%;
   max-width: 30%;
-  border: solid 1px $title;
+  font-size: 16px;
+  border: solid 1px $lilac;
   border-radius: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -84,11 +93,11 @@ h2 {
   right: 60px;
 }
 .submit {
-  font-size: 1.25rem;
-  width: 20%;
-  max-width: 20%;
+  font-size: 1rem;
+  font-weight: 600;
+  width: calc(min(200px, 50vw));
   margin: 10px;
-  border: 1px solid #dc0054;
+  border: 1px solid $lilac;
   border-radius: 5px;
   background: white;
   align-self: center;
@@ -96,7 +105,7 @@ h2 {
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: $title;
+    background-color: $lilac;
   }
 }
 
@@ -104,10 +113,15 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  //   margin: 1rem;
+  width: calc(min(600px, 90vw));
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   font-size: 1.2rem;
-  border: none;
+  border: solid 1px $lilac;
   border-radius: 5px;
+  align-self: center;
+  justify-self: center;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
   transition: box-shadow 0.15s ease-in-out;
   transition-property: box-shadow;
@@ -163,12 +177,12 @@ h2 {
   border: none;
 }
 .refreshButton {
-  border: solid 1px $title;
+  border: solid 1px $lilac;
   border-radius: 5px;
   background-color: white;
   margin-left: 5px;
   &:hover {
-    background-color: $title;
+    background-color: $lilac;
     color: white;
     font-weight: 600;
   }
@@ -176,8 +190,9 @@ h2 {
 .footer {
   position: fixed;
   width: 100%;
-  //   border: solid 1px;
+  height: auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   bottom: 0;
@@ -185,6 +200,7 @@ h2 {
   background-color: lighten($title, 40%);
   font-size: 12px;
   margin-top: 20px;
+  padding-top: 20px;
   a {
     color: $link;
     &:hover {

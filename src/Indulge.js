@@ -1,8 +1,14 @@
 import React from 'react';
+import { ReactComponent as Logo } from './svg/watermelon.svg';
 import './styles.scss'
 
 import { food } from './foodDB'
 import { ponderi } from './components/constants'
+
+import { foodData } from './GetFood'
+
+foodData().then(res=>console.log('am ajuns aici', res))
+
 
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
@@ -102,8 +108,6 @@ const Indulge = () => {
         mealStructure: Object.entries(ponderi[1])
     })
 
-
-
     const handleCals = (e) =>
         setSettings({ ...settings, maxCal: Number(e.target.value) })
 
@@ -197,9 +201,12 @@ const Indulge = () => {
     return (
         <div className='wrapper'>
             <h1 className='title'>
-                Indulge App 2021</h1>
-            <h2>This is an app that will calculate your meals acording to your max cal objectives and number of meals</h2>
-            {}
+                Indulge App  <Logo className='logo' />
+            </h1>
+
+            <h2>This is an app that will calculate your <br />meals according to your max cal
+                objectives<br /> and number of meals</h2>
+
             <Form handleCals={handleCals}
                 handleMeals={handleMeals}
                 handleSubmit={handleSubmit}
@@ -217,9 +224,9 @@ const Indulge = () => {
             }))
                 : null
             }
-            <div>
-                <h4>Total Calorii: {total}<strong></strong></h4>
-            </div>
+
+            <h3>Total Calories: {total}<strong></strong></h3>
+
         </div>
     )
 }

@@ -1,7 +1,20 @@
 # Indulge 🍉🥑🍕🧁
+
 This is a meal planning tool.
+
+## Motivation
+
+My learning journey started in January 2019. This app was built
+after 3 month of learning.
+It provided a way to improve and learn even more.
+
+## Screenshot
+
+![Indulge screenshot]('./src/png/indulge.png')
+
 ## How it works?
-- go to 
+
+- go to
 - type the number of calories
 - select the number of meals
 - Indulge will provide the meal plan!🤩
