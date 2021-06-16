@@ -10,7 +10,7 @@ It provided a way to improve and learn even more.
 
 ## Screenshot
 
-![Indulge screenshot]('./src/png/indulge.png')
+<img src='./src/png/indulge.png' height='500px'/>
 
 ## How it works?
 
@@ -19,9 +19,10 @@ It provided a way to improve and learn even more.
 - select the number of meals
 - Indulge will provide the meal plan!🤩
 
-## Available Scripts
+## Tech stack 👩‍💻
+<code><img src='https://github.com/mariavarvaroi/mariavarvaroi/blob/main/assets/react.png' height='50px'/> 
+<img src='https://upload.wikimedia.org/wikipedia/commons/9/96/Sass_Logo_Color.svg' height='50px'/></code>
 
-In the project directory, you can run:
 
 ### `npm start`
 
